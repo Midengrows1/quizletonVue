@@ -1,10 +1,12 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue';
-</script>
+<script setup></script>
 
 <template>
-  
-  <HelloWorld msg="Vite + Vue" />
+  <p>Current route name: {{ $route.name }}</p>
+  <ul>
+    <li><router-link :to="{ name: 'home' }">Home</router-link></li>
+    <li><router-link :to="{ name: 'addquiz' }">Create</router-link></li>
+  </ul>
+  <router-view class="view"></router-view>
 </template>
 
 <style scoped>
