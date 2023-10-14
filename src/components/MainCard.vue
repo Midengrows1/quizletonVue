@@ -1,7 +1,5 @@
 <script setup>
 const props = defineProps(["id", "title", "description", "terms", "count"]);
-
-const { id } = props;
 </script>
 <template>
   <li class="rounded-lg border my-2 p-2 bg-white w-1/3 mx-2">
