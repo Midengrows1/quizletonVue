@@ -1,7 +1,7 @@
 <script setup></script>
 <template>
   <div>
-    <h1>This is Creating Page</h1>
+    <h1></h1>
   </div>
 </template>
 

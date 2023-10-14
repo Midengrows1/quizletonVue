@@ -35,7 +35,7 @@ library.add(faMagnifyingGlass);
 <template>
   <header class="bg-white">
     <nav
-      class="mx-auto flex max-w-8xl items-center justify-between p-1 lg:px-2"
+      class="mx-auto flex max-w-8xl items-center justify-between p-1 lg:px-28"
       aria-label="Global"
     >
       <div class="flex lg:flex-1 gap-x-4 items-center">
