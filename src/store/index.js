@@ -9,26 +9,32 @@ export const store = reactive({
         {
           name: "yellow",
           definition: "Жёлтый",
+          completed: true,
         },
         {
           name: "Black",
           definition: "Чёрный",
+          completed: true,
         },
         {
           name: "blue",
           definition: "синий",
+          completed: true,
         },
         {
           name: "orange",
           definition: "оранжевый",
+          completed: false,
         },
         {
           name: "orange",
           definition: "оранжевый",
+          completed: false,
         },
         {
           name: "orange",
           definition: "оранжевый",
+          completed: false,
         },
       ],
     },
@@ -39,18 +45,22 @@ export const store = reactive({
         {
           name: "yellow",
           definition: "Жёлтый",
+          completed: true,
         },
         {
           name: "Black",
           definition: "Чёрный",
+          completed: false,
         },
         {
           name: "blue",
           definition: "синий",
+          completed: false,
         },
         {
           name: "orange",
           definition: "оранжевый",
+          completed: false,
         },
       ],
     },
