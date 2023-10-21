@@ -1,96 +1,99 @@
 <script setup>
 import { ref } from "vue";
+import { useRoute } from "vue-router";
 import { store } from "../store";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faArrowRight, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+library.add({ faArrowRight, faArrowLeft })
 const { cards } = store;
-const { terms, id, title, description } = cards;
-// const card = cards[props.id - 1];
-// console.log(card);
-console.log(cards.terms);
-const slide = ref(1);
-const progress = ref(0);
-// const completed = (terms[id - 1].completed = true);
-const nextSlide = (next) => {
-  progress.value = Math.random();
-  next.carousel.next();
-};
-const previousSlide = (prev) => {
-  prev.carousel.previous();
-};
+const route = useRoute()
+const idparams = route.params.id
+const { terms, id, title, description } = cards[idparams - 1];
+const [{ name, definition, completed }] = terms;
+console.log(name);
+const model = ref(0);
+const isFlipped = ref(false);
+const progressValue = ref(0)
+const nextSlide = () => {
+  model.value = Math.min(model.value + 1, terms.length - 1)
+  progressValue.value = (model.value / (terms.length - 1)) * 100
+}
+const previousSlide = () => {
+  model.value = Math.max(model.value - 1, 0);
+  progressValue.value = (model.value / (terms.length - 1)) * 100
+
+}
+const flipCard = () => {
+  isFlipped.value = !isFlipped.value
+}
 </script>
 <template>
-  <div class="bg-red-400 px-10 h-screen">
+  <div class=" px-10 h-screen">
     <header class="p-4 flex items-center bg-white">
       <nav>
-        <router-link :to="{ name: 'home' }">Home</router-link>
+        <router-link :to="{ name: 'home' }"><img src="/Quizlet-Logo.png" alt="" class="w-max h-10"></router-link>
       </nav>
       <h2 class="text-3xl font-bold text-center m-auto">Card</h2>
     </header>
     <div>
-      <div class="w-full bg-white h-96 mt-10">
-        <q-carousel swipeable animated v-model="slide" ref="carousel" infinite>
-          <q-carousel-slide
-            :name="1"
-            img-src="https://cdn.quasar.dev/img/mountains.jpg"
-          />
-          <q-carousel-slide
-            :name="2"
-            img-src="https://cdn.quasar.dev/img/parallax1.jpg"
-          />
-          <q-carousel-slide
-            :name="3"
-            img-src="https://cdn.quasar.dev/img/parallax2.jpg"
-          />
-          <q-carousel-slide
-            :name="4"
-            img-src="https://cdn.quasar.dev/img/quasar.jpg"
-          />
-          <template v-slot:control> </template>
-        </q-carousel>
-      </div>
-      <div class="bg-blue-400 w-full h-auto flex justify-center">
-        <q-carousel-control
-          :position="[]"
-          :offset="[28, 18]"
-          class="q-gutter-xs"
-        >
-          <q-btn
-            push
-            round
-            dense
-            color="orange"
-            text-color="black"
-            icon="arrow_left"
-            @click="previousSlide($refs)"
-          />
-          <q-btn
-            push
-            round
-            dense
-            color="orange"
-            text-color="black"
-            icon="arrow_right"
-            @click="nextSlide($refs)"
-          />
-        </q-carousel-control>
-      </div>
-      <q-linear-progress
-        :value="progress"
-        color="green"
-        class="mt-16 rounded-md"
-      />
+      <h2 class="text-4xl my-3 font-bold ">{{ title }}</h2>
+      <v-carousel v-model="model" hide-delimiters :show-arrows="false">
+        <v-carousel-item v-for="({ name, definition }, i) of terms" :key="i" :value="i" class="bg-red-400">
+          <v-sheet height="100%" class="card shadow-slate-400 " tile rounded @click="flipCard"
+            :class="{ flipped: isFlipped }">
+            <div class="d-flex fill-height justify-center align-center front w-full  drop-shadow-xl">
+              <p class="text-3xl">{{ name }}</p>
+            </div>
+            <div class="back d-flex fill-height justify-center align-center front w-full ">
+              <p class="text-3xl">{{ definition }}</p>
+            </div>
+          </v-sheet>
+        </v-carousel-item>
+      </v-carousel>
+    </div>
+    <div class="flex items-center w-full  justify-center gap-x-5 h-max p-2">
+      <v-btn icon='chevron-left' @click="previousSlide" density="default"><font-awesome-icon icon="arrow-left" /></v-btn>
+      {{ model + 1 }} / {{ terms.length }}
+      <v-btn icon='chevron-right' @click="nextSlide" class="rounded-xl"><font-awesome-icon icon="arrow-right" /></v-btn>
+    </div>
+    <v-progress-linear v-model="progressValue" color="green" :height="7" rounded></v-progress-linear>
+    <div>
+      <p class="my-10 font-bold text-2xl">Термины в модуле ({{ terms.length }})</p>
+      <h2 class="text-orange-400 font-bold">Изучено ({{ model + 1 }})</h2>
+      <p>Вы начали изучать эти термины.<br>Продолжайте!</p>
+    </div>
+    <div>
+      <ul class="flex flex-col gap-y-3">
+        <li v-for="({ name, definition }, i) of terms" :key="i"
+          class="w-full p-2 flex items-center justify-between shadow-lg   rounded-md bg-white">
+          <p class="pr-2 w-32 break-words p-3 border-r-2 border-slate-200">{{ name }}</p>
+          <p class="p-3">{{ definition }}</p>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
-
 <style scoped>
-.swiper-button-next,
-.swiper-button-prev {
-  background-color: white;
-  background-color: rgba(255, 255, 255, 0.5);
-  right: 10px;
-  padding: 30px;
-  color: #000 !important;
-  fill: black !important;
-  stroke: black !important;
+.card {
+  position: relative;
+  transition: transform 0.4s;
+  transform-style: preserve-3d;
+}
+
+.flipped {
+  transform: rotateX(0.5turn);
+}
+
+.front,
+.back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+.back {
+  transform: rotateX(0.5turn);
 }
 </style>

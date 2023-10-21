@@ -1,18 +1,19 @@
 import { createApp } from "vue";
-import { Quasar } from "quasar";
-import "@quasar/extras/material-icons/material-icons.css";
-import "quasar/src/css/index.sass";
-import "./style.css";
 import App from "./App.vue";
 import { router } from "../src/router/index";
 import Header from "./components/Header.vue";
-
+import "./style.css";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-
-const app = createApp(App).use(router);
-app.use(Quasar, {
-  plugins: {}, // import Quasar plugins and add here
+import "vuetify/styles";
+import { createVuetify } from "vuetify";
+import * as components from "vuetify/components";
+import * as directives from "vuetify/directives";
+const vuetify = createVuetify({
+  components,
+  directives,
 });
+const app = createApp(App).use(router);
+app.use(vuetify);
 app.component("Header", Header);
 app.component("font-awesome-icon", FontAwesomeIcon);
 app.mount("#app");
