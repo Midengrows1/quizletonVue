@@ -1,6 +1,6 @@
 <script setup>
 import MainCard from "@/components/Maincard.vue";
-import Layout from "../components/global/Layout.vue";
+import Layout from "@/components/global/Layout.vue";
 import { store } from "../store";
 const cardsArray = store.cards;
 </script>
