@@ -9,20 +9,14 @@ const props = defineProps(["id", "title", "description", "terms", "count"]);
           <h2 class="text-blue-500 text-semibold text-lg w-fit">
             {{ title }}
           </h2>
-          <div
-            class="flex-inline bg-slate-200 w-fit whitespace-nowrap rounded-xl px-2 font-semibold text-sm"
-          >
+          <div class="flex-inline bg-slate-200 w-fit whitespace-nowrap rounded-xl px-2 font-semibold text-sm">
             {{ count }} {{ count > 5 == 0 ? "терминa" : "терминов" }}
           </div>
         </div>
       </div>
       <div class="flex gap-2 items-center pt-2">
         <div class="w-14 h-auto">
-          <img
-            src="../../public/userAvatar.png"
-            alt="avatar"
-            class="object-cover"
-          />
+          <img src="/userAvatar.png" alt="avatar" class="object-cover" />
         </div>
         <p>UserName</p>
       </div>

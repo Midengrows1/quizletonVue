@@ -11,7 +11,6 @@ const route = useRoute()
 const idparams = route.params.id
 const { terms, id, title, description } = cards[idparams - 1];
 const [{ name, definition, completed }] = terms;
-console.log(name);
 const model = ref(0);
 const isFlipped = ref(false);
 const progressValue = ref(0)
